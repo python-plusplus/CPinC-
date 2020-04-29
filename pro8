@@ -1,0 +1,68 @@
+//New Inspiration
+//https://dmoj.ca/problem/ccc20s3/editorial
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+unordered_map<char, int> getLetterCount(string a){
+	unordered_map<char,int> umap;
+	for(char c: a){
+		if (umap.find(c) == umap.end()){
+			umap[c] = 1;
+		}	
+		else{
+			umap[c] += 1;
+		}
+	}
+	return umap;
+}
+
+void solve(){
+	string  n; string h; 
+	cin >> n;
+	cin >> h;
+	int haylen = h.length();
+	const unordered_map<char, int> nmap = getLetterCount(n);
+	vector<string> stringlist;
+	for(int i = 0; i < haylen; i++){
+		unordered_map<char, int> tempmap = nmap;
+		string tempstr = h.substr(i, n.length());
+		bool works = true;
+		if (tempstr.length() != n.length()){
+			continue;
+		}
+		if (find(stringlist.begin(), stringlist.end(), tempstr) != stringlist.end()){
+			continue;
+		}
+		for (char c : tempstr){
+			if (tempmap.find(c) == tempmap.end()) {
+				works = false;
+			}
+			else{
+				if (tempmap[c] == 0){	
+					works = false;	
+				}
+				else{
+					tempmap[c] -= 1;
+				}
+			}
+		}
+		if (works == true){
+			stringlist.push_back(tempstr);
+		}
+		else{
+			continue;
+		}
+	}
+	cout << stringlist.size();
+}
+
+
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	solve();
+	return 0;
+}
+
